@@ -1,16 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './http-exception.filter';
+import { sentryInit  } from './sentry'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter(),
-  );
-  await app.listen(3000);
+  sentryInit()
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new AllExceptionsFilter());
+  await app.listen(3001);
 }
-
 bootstrap();
