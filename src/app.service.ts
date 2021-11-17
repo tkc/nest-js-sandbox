@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import * as Sentry from '@sentry/node';
-import { error } from 'console';
 import {AppError} from './error';
 
 async function errAsync(){
   try {
-    throw new Error("一般的なエラーだよ");
-  } catch (e) {
-    if (typeof e.message === "string") throw new AppError(e.message);
-    throw new AppError("unKnow");
+    throw new Error("errAsync Error");
+  } catch (exception) {
+    // console.log(typeof(exception))
+    // if (typeof e.message === "string") throw new AppError(e.message);
+    // if (exception instanceof HttpException) return exception.getStatus();
+    // if (exception instanceof EntityNotFoundError) return 404;
+    throw exception
   }
 }
 
